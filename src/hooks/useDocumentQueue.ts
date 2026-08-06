@@ -82,11 +82,7 @@ export function useDocumentQueue() {
             signal,
           });
 
-          if (
-            !signal.aborted &&
-            currentRecord.pages.length > 0 &&
-            currentRecord.detected.length === currentRecord.masks.length
-          ) {
+          if (!signal.aborted && currentRecord.pages.length > 0 && currentRecord.masks.length > 0) {
             try {
               const result = await exportFile(
                 currentRecord,

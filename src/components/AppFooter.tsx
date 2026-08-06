@@ -23,13 +23,7 @@ export function AppFooter() {
         }}
       >
         {/* Trust badges */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: "24px",
-          }}
-        >
+        <div className="grid-footer">
           {[
             {
               icon: <Lock size={20} />,
@@ -103,12 +97,7 @@ export function AppFooter() {
         {/* Bottom bar */}
         <div
           id="about"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: "16px",
-          }}
+          className="footer-bottom"
         >
           <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.5)", margin: 0 }}>
             © {new Date().getFullYear()} Aadhaar Mask Pro · Built for secure, compliant document handling

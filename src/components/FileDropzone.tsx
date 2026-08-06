@@ -49,7 +49,7 @@ export function FileDropzone({ onFiles, busy }: Props) {
         isDragActive ? "border-primary bg-primary/10 shadow-lg" : "bg-white",
       )}
     >
-      <input {...getInputProps({ ref: inputRef })} />
+      <input {...getInputProps()} ref={inputRef} />
       <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-primary text-white shadow-sm">
         {busy ? (
           <Loader2 className="size-8 animate-spin" aria-hidden="true" />

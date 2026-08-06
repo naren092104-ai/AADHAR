@@ -1,20 +1,18 @@
 "use client";
 
-import { Moon, ShieldCheck, Sun, Trash2 } from "lucide-react";
+import { Moon, ShieldCheck, Sun } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
 interface Props {
   theme: "light" | "dark";
   onToggleTheme: () => void;
-  onClearSession: () => void;
-  canClear: boolean;
 }
 
-export function AppHeader({ theme, onToggleTheme, onClearSession, canClear }: Props) {
+export function AppHeader({ theme, onToggleTheme }: Props) {
   return (
     <header
       style={{
-        height: "72px",
+        minHeight: "64px",
         background: "#fff",
         borderBottom: "1px solid #F0D5C0",
         boxShadow: "0 1px 4px rgba(217,95,0,0.06)",
@@ -27,12 +25,12 @@ export function AppHeader({ theme, onToggleTheme, onClearSession, canClear }: Pr
         style={{
           maxWidth: "1400px",
           margin: "0 auto",
-          padding: "0 24px",
-          height: "100%",
+          padding: "0 16px",
+          minHeight: "64px",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          gap: "16px",
+          gap: "12px",
         }}
       >
         {/* Logo */}
@@ -42,32 +40,31 @@ export function AppHeader({ theme, onToggleTheme, onClearSession, canClear }: Pr
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              width: "36px",
-              height: "36px",
+              width: "34px",
+              height: "34px",
               borderRadius: "10px",
               background: "#D95F00",
               color: "#fff",
+              flexShrink: 0,
             }}
           >
-            <ShieldCheck size={20} />
+            <ShieldCheck size={18} />
           </span>
           <span
             style={{
-              fontSize: "16px",
+              fontSize: "15px",
               fontWeight: 700,
               color: "#1A0A00",
               letterSpacing: "-0.01em",
+              whiteSpace: "nowrap",
             }}
           >
             Aadhaar Mask Pro
           </span>
         </div>
 
-        {/* Navigation */}
-        <nav
-          style={{ display: "flex", alignItems: "center", gap: "4px" }}
-          aria-label="Main navigation"
-        >
+        {/* Navigation — hidden on small screens via CSS class */}
+        <nav className="header-nav" aria-label="Main navigation">
           <Link
             to="/"
             style={{
@@ -93,8 +90,8 @@ export function AppHeader({ theme, onToggleTheme, onClearSession, canClear }: Pr
               textDecoration: "none",
             }}
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.background = "#F3F4F6";
-              (e.currentTarget as HTMLElement).style.color = "#0F172A";
+              (e.currentTarget as HTMLElement).style.background = "#FFF0E6";
+              (e.currentTarget as HTMLElement).style.color = "#D95F00";
             }}
             onMouseLeave={(e) => {
               (e.currentTarget as HTMLElement).style.background = "transparent";
@@ -114,8 +111,8 @@ export function AppHeader({ theme, onToggleTheme, onClearSession, canClear }: Pr
               textDecoration: "none",
             }}
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.background = "#F3F4F6";
-              (e.currentTarget as HTMLElement).style.color = "#0F172A";
+              (e.currentTarget as HTMLElement).style.background = "#FFF0E6";
+              (e.currentTarget as HTMLElement).style.color = "#D95F00";
             }}
             onMouseLeave={(e) => {
               (e.currentTarget as HTMLElement).style.background = "transparent";
@@ -138,36 +135,14 @@ export function AppHeader({ theme, onToggleTheme, onClearSession, canClear }: Pr
               width: "36px",
               height: "36px",
               borderRadius: "8px",
-              border: "1px solid #E5E7EB",
+              border: "1px solid #F0D5C0",
               background: "transparent",
               cursor: "pointer",
-              color: "#64748B",
+              color: "#7A4A2A",
+              flexShrink: 0,
             }}
           >
             {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
-          </button>
-
-          <button
-            onClick={onClearSession}
-            disabled={!canClear}
-            aria-label="Clear session"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-              padding: "8px 14px",
-              borderRadius: "8px",
-              border: "1px solid #E5E7EB",
-              background: canClear ? "#FFF" : "#F9FAFB",
-              cursor: canClear ? "pointer" : "not-allowed",
-              fontSize: "13px",
-              fontWeight: 500,
-              color: canClear ? "#374151" : "#9CA3AF",
-              transition: "background 0.15s",
-            }}
-          >
-            <Trash2 size={14} />
-            Clear Session
           </button>
         </div>
       </div>

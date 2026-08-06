@@ -31,7 +31,7 @@ export function QuickActions({ file, files, compression, onPatch }: Props) {
   const [busy, setBusy] = useState<string | null>(null);
 
   const readyFiles = files.filter((f) => !f.error && f.pages.length > 0);
-  const readyMaskedFiles = readyFiles.filter((f) => f.detected.length === f.masks.length);
+  const readyMaskedFiles = readyFiles.filter((f) => f.masks.length > 0);
 
   const shareSupported = useMemo(
     () => typeof navigator !== "undefined" && typeof navigator.share === "function",
@@ -114,7 +114,7 @@ export function QuickActions({ file, files, compression, onPatch }: Props) {
     file.pages.length > 0 &&
     !file.error &&
     busy === null &&
-    file.detected.length === file.masks.length;
+    file.masks.length > 0;
 
   const actions: ActionCard[] = [
     {
@@ -165,13 +165,7 @@ export function QuickActions({ file, files, compression, onPatch }: Props) {
   ];
 
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(4, 1fr)",
-        gap: "16px",
-      }}
-    >
+    <div className="grid-actions">
       {actions.map((action) => (
         <button
           key={action.key}

@@ -170,22 +170,24 @@ export function ProcessingSummary({ files, activeId, onSelect, onRemove }: Props
             }}
           >
             <div
+              className="summary-file-item"
               style={{
-                padding: "16px 24px",
+                padding: "16px 20px",
                 display: "flex",
                 flexDirection: "column",
                 gap: "10px",
-                background: file.id === activeId ? "#F8FAFF" : "transparent",
+                background: file.id === activeId ? "#FFF8F3" : "transparent",
                 transition: "background 0.15s",
               }}
             >
               {/* Row 1: Name + badge + remove */}
               <div
+                className="summary-file-row"
                 style={{
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  gap: "12px",
+                  gap: "8px",
                 }}
               >
                 <button
@@ -233,8 +235,8 @@ export function ProcessingSummary({ files, activeId, onSelect, onRemove }: Props
                         ? "#FEE2E2"
                         : file.progress === 100
                           ? "#DCFCE7"
-                          : "#DBEAFE",
-                      color: file.error ? "#DC2626" : file.progress === 100 ? "#15803D" : "#0B5ED7",
+                          : "#FFF0E6",
+                      color: file.error ? "#DC2626" : file.progress === 100 ? "#15803D" : "#D95F00",
                     }}
                   >
                     {file.error ? "Failed" : file.progress === 100 ? "Ready" : "Processing"}
@@ -286,7 +288,7 @@ export function ProcessingSummary({ files, activeId, onSelect, onRemove }: Props
                     style={{
                       height: "100%",
                       width: `${file.progress}%`,
-                      background: "#0B5ED7",
+                      background: "#D95F00",
                       borderRadius: "99px",
                       transition: "width 0.3s ease",
                     }}

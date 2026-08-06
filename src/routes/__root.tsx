@@ -102,6 +102,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  // In SPA/client mode (Vite dev), index.html already provides the
+  // <html>/<head>/<body> skeleton. Rendering them again inside #root
+  // causes "In HTML, <html> cannot be a child of <div>" hydration errors.
+  // We only emit the full document shell in SSR (Nitro) mode where
+  // TanStack Start renders to a string without a pre-existing HTML document.
+  if (typeof document !== "undefined") {
+    // Client / SPA mode — just pass children through
+    return <>{children}</>;
+  }
   return (
     <html lang="en">
       <head>

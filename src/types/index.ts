@@ -9,6 +9,8 @@ export interface MaskRect {
   w: number;
   h: number;
   source: "ocr" | "manual";
+  digits?: string;
+  confidence?: number;
 }
 
 export interface DetectedAadhaar {

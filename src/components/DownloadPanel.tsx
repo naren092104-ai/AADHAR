@@ -19,7 +19,7 @@ interface Props {
 export function DownloadPanel({ file, files, compression, onPatch }: Props) {
   const [busy, setBusy] = useState<string | null>(null);
   const readyFiles = files.filter((item) => !item.error && item.pages.length > 0);
-  const readyMaskedFiles = readyFiles.filter((item) => item.detected.length === item.masks.length);
+  const readyMaskedFiles = readyFiles.filter((item) => item.masks.length > 0);
   const shareSupported = useMemo(
     () => typeof navigator !== "undefined" && typeof navigator.share === "function",
     [],
@@ -105,7 +105,7 @@ export function DownloadPanel({ file, files, compression, onPatch }: Props) {
     file.pages.length === 0 ||
     Boolean(file.error) ||
     busy !== null ||
-    file.detected.length !== file.masks.length;
+    file.masks.length === 0;
 
   const zipDisabled = readyMaskedFiles.length === 0 || busy !== null;
   const shareDisabled =
@@ -113,7 +113,7 @@ export function DownloadPanel({ file, files, compression, onPatch }: Props) {
     file.pages.length === 0 ||
     Boolean(file.error) ||
     busy !== null ||
-    file.detected.length !== file.masks.length;
+    file.masks.length === 0;
 
   return (
     <section aria-labelledby="download-heading" className="surface-card p-5">

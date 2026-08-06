@@ -50,13 +50,7 @@ export function StatsRow({ documents, pages, aadhaarFound, masked }: Props) {
   ];
 
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(4, 1fr)",
-        gap: "16px",
-      }}
-    >
+    <div className="grid-stats">
       {stats.map((stat) => (
         <div
           key={stat.label}

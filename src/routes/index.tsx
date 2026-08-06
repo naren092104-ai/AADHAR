@@ -36,8 +36,6 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const CONTENT_WIDTH = "1400px";
-
 function Index() {
   const queue = useDocumentQueue();
   const { theme, toggle: toggleTheme } = useTheme();
@@ -53,7 +51,7 @@ function Index() {
     <div
       style={{
         minHeight: "100dvh",
-        background: "#F7F9FC",
+        background: "#FFF8F3",
         fontFamily:
           '"Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
         color: "#0F172A",
@@ -65,21 +63,20 @@ function Index() {
       <AppHeader
         theme={theme}
         onToggleTheme={toggleTheme}
-        onClearSession={queue.clearAll}
-        canClear={queue.files.length > 0 || queue.isProcessing}
       />
 
       {/* ── MAIN ──────────────────────────────────────────────────────── */}
       <main style={{ flex: 1 }}>
         <ErrorBoundary>
           <div
+            className="main-content"
             style={{
-              maxWidth: CONTENT_WIDTH,
+              maxWidth: "1400px",
               margin: "0 auto",
-              padding: "32px 24px",
+              padding: "24px 16px",
               display: "flex",
               flexDirection: "column",
-              gap: "24px",
+              gap: "20px",
             }}
           >
             {/* ── ROW 1: Upload card ──────────────────────────────────── */}
@@ -188,15 +185,12 @@ function ProcessingBanner({
 }) {
   return (
     <div
+      className="banner-wrap"
       style={{
-        background: "#EFF6FF",
+        background: "#FFF0E6",
         borderRadius: "12px",
-        border: "1px solid #BFDBFE",
+        border: "1px solid #FDDCBB",
         padding: "14px 20px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        gap: "16px",
       }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -205,16 +199,16 @@ function ProcessingBanner({
             width: "8px",
             height: "8px",
             borderRadius: "50%",
-            background: "#0B5ED7",
+            background: "#D95F00",
             animation: "pulse 1.5s ease-in-out infinite",
             flexShrink: 0,
           }}
         />
         <div>
-          <p style={{ fontSize: "13px", fontWeight: 600, color: "#1D4ED8", margin: 0 }}>
+          <p style={{ fontSize: "13px", fontWeight: 600, color: "#92400E", margin: 0 }}>
             Processing…
           </p>
-          <p style={{ fontSize: "12px", color: "#3B82F6", margin: "2px 0 0 0" }}>{message}</p>
+          <p style={{ fontSize: "12px", color: "#B45309", margin: "2px 0 0 0" }}>{message}</p>
         </div>
       </div>
       <button
@@ -224,13 +218,15 @@ function ProcessingBanner({
         style={{
           padding: "7px 16px",
           borderRadius: "8px",
-          border: "1px solid #BFDBFE",
+          border: "1px solid #FDDCBB",
           background: "#fff",
-          color: "#1D4ED8",
+          color: "#92400E",
           fontSize: "12px",
           fontWeight: 600,
           cursor: canCancel ? "pointer" : "not-allowed",
           opacity: canCancel ? 1 : 0.5,
+          flexShrink: 0,
+          whiteSpace: "nowrap",
         }}
       >
         Cancel
@@ -264,7 +260,7 @@ function EmptyState() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          color: "#0B5ED7",
+          color: "#D95F00",
         }}
       >
         <Sparkles size={24} />

@@ -35,6 +35,7 @@ export function emptyFile(file: File): ProcessedFile {
     pages: [],
     masks: [],
     detected: [],
+    vidIgnored: 0,
     statuses: {
       enhancement: "idle",
       ocr: "idle",
@@ -160,7 +161,7 @@ export async function processFile(
           detected.push({
             page: mask.page,
             value: mask.digits ?? "unverified",
-            confidence: mask.confidence,
+            confidence: mask.confidence ?? 0,
           });
           newMasks += 1;
         }

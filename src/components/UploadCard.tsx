@@ -33,25 +33,26 @@ export function UploadCard({ onFiles, busy }: Props) {
   return (
     <div
       {...getRootProps()}
+      className="upload-card"
       style={{
         width: "100%",
-        minHeight: "260px",
         background: isDragActive ? "#FFF0E6" : "#FFFFFF",
         border: isDragActive ? "2px dashed #D95F00" : "2px dashed #F0D5C0",
         borderRadius: "16px",
-        boxShadow: "0 1px 3px rgba(0,0,0,0.06), 0 8px 24px -8px rgba(11,94,215,0.10)",
+        boxShadow: "0 1px 3px rgba(0,0,0,0.06), 0 8px 24px -8px rgba(217,95,0,0.10)",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        gap: "24px",
-        padding: "40px 24px",
+        gap: "20px",
+        padding: "32px 20px",
         cursor: busy ? "not-allowed" : "pointer",
         transition: "all 0.2s ease",
+        boxSizing: "border-box",
       }}
       aria-label="Upload documents"
     >
-      <input {...getInputProps({ ref: inputRef })} />
+      <input {...getInputProps()} ref={inputRef} />
 
       {/* Illustration */}
       <div

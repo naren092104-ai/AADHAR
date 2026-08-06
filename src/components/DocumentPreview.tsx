@@ -153,7 +153,13 @@ export function DocumentPreview({ file }: Props) {
           {pages.map((asset, index) => {
             const pageDetectionsForPage = file.detected.filter((item) => item.page === index);
             return (
-              <div key={asset.index} ref={(ref) => (pageRefs.current[index] = ref)} className="space-y-3">
+              <div
+                key={asset.index}
+                ref={(ref) => {
+                  pageRefs.current[index] = ref;
+                }}
+                className="space-y-3"
+              >
                 <div className="flex items-center justify-between gap-3 rounded-2xl border border-border bg-surface p-3 text-xs text-muted-foreground">
                   <span>Page {index + 1} of {file.pages.length}</span>
                   <span>{pageDetectionsForPage.length} Aadhaar detected</span>
