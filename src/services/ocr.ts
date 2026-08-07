@@ -290,8 +290,11 @@ function prepareOcrCanvas(source: HTMLCanvasElement): {
   scale: number;
 } {
   const TARGET = 2400;
+  const MIN_DIMENSION = 128;
   const longest = Math.max(source.width, source.height, 1);
-  const scale = Math.min(2.5, TARGET / longest);
+  const baseScale = Math.min(2.5, TARGET / longest);
+  const minScale = Math.max(1, MIN_DIMENSION / Math.min(source.width, source.height));
+  const scale = Math.max(baseScale, minScale);
   if (Math.abs(scale - 1) < 0.02) return { canvas: source, scale: 1 };
 
   const w = Math.round(source.width * scale);
@@ -302,6 +305,38 @@ function prepareOcrCanvas(source: HTMLCanvasElement): {
   ctx.imageSmoothingQuality = "high";
   ctx.drawImage(source, 0, 0, w, h);
   return { canvas, scale };
+}
+
+function isTesseractSmallImageError(error: unknown): boolean {
+  const message =
+    error instanceof Error ? error.message : typeof error === "string" ? error : "";
+  return /Image too small to scale|Line cannot be recognized/i.test(message);
+}
+
+async function recognizeWithFallback(
+  worker: TesseractWorker,
+  canvas: HTMLCanvasElement,
+): Promise<{ data: unknown }> {
+  try {
+    return await worker.recognize(canvas, {}, { blocks: true, text: true });
+  } catch (error) {
+    if (!isTesseractSmallImageError(error)) throw error;
+
+    const fallbackWidth = Math.max(320, canvas.width * 3);
+    const fallbackHeight = Math.max(320, canvas.height * 3);
+    const fallbackCanvas = createCanvas(fallbackWidth, fallbackHeight);
+    const ctx = ctxOf(fallbackCanvas);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
+    ctx.drawImage(canvas, 0, 0, fallbackWidth, fallbackHeight);
+
+    try {
+      return await worker.recognize(fallbackCanvas, {}, { blocks: true, text: true });
+    } catch (fallbackError) {
+      console.warn("Tesseract fallback failed:", fallbackError);
+      return { data: {} };
+    }
+  }
 }
 
 // ── Public API ────────────────────────────────────────────────────────────────
@@ -319,7 +354,7 @@ export async function detectAadhaarOnCanvas(
   const worker = await getWorker();
   const { canvas: ocrCanvas, scale } = prepareOcrCanvas(canvas);
 
-  const { data } = await worker.recognize(ocrCanvas, {}, { blocks: true, text: true });
+  const { data } = await recognizeWithFallback(worker, ocrCanvas);
   const lines = collectLines(data);
 
   const masks: Omit<MaskRect, "id">[] = [];
